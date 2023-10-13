@@ -5,6 +5,7 @@ import {
   Alert,
   TouchableOpacity,
   SafeAreaView,
+  Image
 } from 'react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,10 +14,15 @@ import {auth} from '../../Redux/Reducers/Authreducer';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Buttonn from '../../components/ButtonComponent/Buttonn'
 import styles from './home';
+import {homemain} from '../../utility/imagepath'
 const Home = ({navigation}: any) => {
   const dispatch = useDispatch();
-  const clearstorage = () => {
-    dispatch(auth(false));
+  const clearstorage = async() => {
+    let rem = await AsyncStorage.removeItem('login')
+    if(rem === undefined)
+    {
+      dispatch(auth(false))
+    }
   };
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -64,6 +70,22 @@ const Home = ({navigation}: any) => {
           </View>
         </View>
       </SafeAreaView>
+
+      {/* main */}
+
+      <View style={styles.maincontainer}>
+        <View style={styles.main}>
+         <Image source={homemain} style={{width:'100%',height:200,borderRadius:20,opacity:0.5}}/>
+         <View style={styles.maininfobox}>
+          <Text style={styles.maintxt}>Indoor and Outdoor</Text>
+          <Text style={styles.maintxt}>Landscape <Text style={[styles.maintxt,{color:'orange'}]}>Gardner</Text></Text>
+          <View>
+            <Text style={styles.mainsmalltxt}>Lorem ipsum dolor sit amet</Text>
+            <Text>Lorem ipsum</Text>
+          </View>
+         </View>
+        </View>
+      </View>
 
       <Buttonn
       text={"Logout"}

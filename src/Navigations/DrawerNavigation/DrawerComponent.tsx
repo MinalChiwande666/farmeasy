@@ -1,13 +1,23 @@
-import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, SafeAreaView, TouchableOpacity, Alert} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {DrawerItemList} from '@react-navigation/drawer';
 import styles from './drawer';
 // @ts-ignore
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Animated, {
+  interpolate,
+  Extrapolate,
+  useSharedValue,
+  withSpring,
+  withTiming,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import {useNavigation} from '@react-navigation/native';
 const DrawerComponent = (props: any) => {
+  const rotate = useSharedValue(0);
+  const [index, setindex] = useState<any>();
   const [drop, setdrop] = useState<any>();
-  const [open,setopen] = useState<any>(false)
+  const [open, setopen] = useState<any>(false);
   const navigation = useNavigation();
   const DrawerNav = [
     'Home',
@@ -30,6 +40,16 @@ const DrawerComponent = (props: any) => {
       item: ['About Us'],
     },
   ];
+
+  const rotatestyle = useAnimatedStyle((): any => {
+    const rot = interpolate(rotate.value, [0, 1], [0, 180], Extrapolate.CLAMP);
+    return {
+      padding: rot,
+    };
+  }, []);
+
+ 
+
   return (
     <View style={styles.container}>
       <SafeAreaView>
@@ -48,35 +68,39 @@ const DrawerComponent = (props: any) => {
                 width: '100%',
               }}>
               <Text style={styles.submenutxt}>{item}</Text>
-              <TouchableOpacity onPress={() => {setdrop(item); setopen(!open)}}>
+              <Animated.View
+                style={rotatestyle}
+                onTouchStart={() => {
+                  setdrop(item);
+                  setopen(!open);
+                  setindex(i);
+                }}>
                 <MaterialCommunityIcons
-                  name="chevron-down"
+                  name={item === drop && open ? 'chevron-up' : 'chevron-down'}
                   color={'black'}
                   size={24}
                 />
-              </TouchableOpacity>
+              </Animated.View>
             </View>
             {drop === item && open && (
-              <View style={{width:'100%',
-              padding:5}}>
+              <Animated.View style={[{width: '100%'}, rotatestyle]}>
                 {
                   <View>
                     {submenus.map((item2, i) =>
                       item === item2.name ? (
                         <View style={styles.menuitem}>
-                          {
-                           
-                             item2.item.map((nam, i) => (
-                                <Text>{nam}</Text>
-                              ))
-                           
-                          }
+                          {item2.item.map((nam, i) => (
+                            <TouchableOpacity
+                              onPress={() => navigation.navigate(nam)}>
+                              <Text>{nam}</Text>
+                            </TouchableOpacity>
+                          ))}
                         </View>
                       ) : null,
                     )}
                   </View>
                 }
-              </View>
+              </Animated.View>
             )}
           </View>
         </View>

@@ -1,2 +1,5 @@
 export const spray = require('../assets/images/spray.jpg')
 export const cultivation = require('../assets/images/cultivation2.jpg')
+export const homemain = require('../assets/images/Farmer-standing-in-field.jpg')
+export const avatar = require('../assets/images/avatar.png')
+export const farmerlogo = require('../assets/images/farmer.png')

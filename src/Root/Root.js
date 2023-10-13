@@ -7,6 +7,9 @@ import ResetPassword from "../Screens/ForgotPassScreen/ResetPassword";
 import Signup from "../Screens/RegistrationScreen/Signup";
 import Crop from "../Screens/CropScreen/Crop";
 import Profile from "../Screens/ProfileScreen/Profile";
+import Editprofile from "../Screens/ProfileScreen/Editprofile";
+import Setting from "../Screens/ProfileScreen/Setting";
+import HelpCenter from "../Screens/ProfileScreen/HelpCenter";
 export {
     Home,
     LoginScreen,
@@ -14,7 +17,10 @@ export {
     ForgotPasswordEmail,
     VerifyEmailPhone,
     ResetPassword,
+    Setting,
     Crop,
     Profile,
+    Editprofile,
+    HelpCenter,
     Signup
 }

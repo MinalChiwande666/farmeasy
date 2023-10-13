@@ -46,8 +46,16 @@ const LoginScreen = ({navigation}: any) => {
     }
     if (ct === 0) {
       Alert.alert('Successfully login!');
-      dispatch(auth(true));
-      await AsyncStorage.setItem('auth', JSON.stringify(true));
+      // dispatch(auth(true));
+      await AsyncStorage.setItem('login', JSON.stringify(true));
+      try{
+        let data:any = await AsyncStorage.getItem('login')
+        let convjson = JSON.parse(data)
+        dispatch(auth(true));
+        console.log(convjson,"login token")
+      }catch(e){
+        console.log(e)
+      }
     }
   };
 
